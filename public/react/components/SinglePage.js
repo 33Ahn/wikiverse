@@ -1,14 +1,35 @@
-import React from "react"
+import { format } from "morgan";
+import React from "react";
 
-export const  SinglePage = ({singlePage}) => {
+export const SinglePage = ({ singlePage }) => {
+  return (
+    <>
+      <h1>{singlePage.title}</h1>
+      <p>
+        <strong>Author: </strong>
+        {singlePage.author.name}
+      </p>
+      <p>
+        <strong>Published: </strong>
+        {singlePage.createdAt}
 
-    return <>
-        <h3>{singlePage.title}</h3>
-        <h3>{singlePage.author.name}</h3>
-        <h3>{singlePage.content}</h3>
-        <h3>{singlePage.tags}</h3>
-        <h3>{singlePage.createdAt}</h3>
-       
+        {/* .format(new Date(), "dd/mm/yyyy") */}
+      </p>
+      <p>{singlePage.content}</p>
+      <div>
+        <strong>Tags: </strong>
+        {singlePage.tags.map((tag, idx) => (
+          <p key={idx}>{tag.name}</p>
+        ))}
+      </div>
+
+      <button
+        onClick={() => {
+          singlePage.handleClick(singlePage.title);
+        }}
+      >
+        Back to Wiki List
+      </button>
     </>
-    
-}
+  );
+};
