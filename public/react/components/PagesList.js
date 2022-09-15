@@ -2,7 +2,7 @@ import React from "react";
 import { Page } from "./Page";
 
 export const PagesList = ({ pages, handleClick }) => {
-  console.log("PagesList ");
+  // console.log("PagesList ");
   return (
     <>
       {pages.map((page, idx) => {

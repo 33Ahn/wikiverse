@@ -1,7 +1,7 @@
 import { format } from "morgan";
 import React from "react";
 
-export const SinglePage = ({ singlePage }) => {
+export const SinglePage = ({ singlePage, setSinglePage }) => {
   return (
     <>
       <h1>{singlePage.title}</h1>
@@ -23,13 +23,7 @@ export const SinglePage = ({ singlePage }) => {
         ))}
       </div>
 
-      <button
-        onClick={() => {
-          singlePage.handleClick(singlePage.title);
-        }}
-      >
-        Back to Wiki List
-      </button>
+      <button onClick={() => setSinglePage(false)}>Back to Wiki List</button>
     </>
   );
 };

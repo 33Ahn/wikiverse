@@ -8,8 +8,8 @@ import apiURL from "../api";
 
 export const App = () => {
   const [pages, setPages] = useState([]);
-  const [singlePage, setSinglePage] = useState({}); // set the article data on a new piece of state
-  const [isAddingArticle, setIsAddingArticle] = useState(true);
+  const [singlePage, setSinglePage] = useState(null); // set the article data on a new piece of state
+  const [isAddingArticle, setIsAddingArticle] = useState(false);
 
   useEffect(() => {
     fetchPages();
@@ -37,64 +37,28 @@ export const App = () => {
     }
   }
 
-  // The data sent should look something like this:
-  const articleData = {
-    title: "",
-    content: "",
-    name: "",
-    email: "",
-    tags: "",
-  };
-
-  // To send data in a fetch that is not get, but a post request
-  async function fetchPostData() {
-    try {
-      const response = await fetch(`${apiURL}/wiki/${slug}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(
-          articleData // our data to Create here
-        ),
-      });
-      const data = await response.json();
-    } catch (err) {
-      console.log("An error has occurred!", err);
-    }
-  }
-
-  const handleSubmit = (e) => {
-    // disable default behavior (default: send it to the server and reload the page)
-    e.preventDefault();
-
-    // add article
-    setIsAddingArticle({ title, content, name, email, tags });
-
-    // clear out the form for next time
-    setIsAddingArticle(true);
-  };
-
   return (
     <>
       <main>
-        {Object.keys(singlePage).length === 0 ? (
+        {singlePage ? (
+          <SinglePage singlePage={singlePage} setSinglePage={setSinglePage} />
+        ) : isAddingArticle ? (
+          <div>
+            <Form
+              isAddingArticle={isAddingArticle}
+              setIsAddingArticle={setIsAddingArticle}
+            />
+          </div>
+        ) : (
           <div>
             <h1>WikiVerse</h1>
             <h2>An interesting 📚</h2>
             <PagesList pages={pages} handleClick={fetchArticleData} />
+            <button onClick={() => setIsAddingArticle(true)}>
+              Create a Page
+            </button>
           </div>
-        ) : (
-          <SinglePage singlePage={singlePage} />
         )}
-
-        <button
-          onClick={() => {
-            isAddingArticle ? <Form isAddingArticle={isAddingArticle} /> : "";
-          }}
-        >
-          Create a Page
-        </button>
       </main>
       <footer>&copy;Wikiverse 2022.</footer>
     </>
