@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import apiURL from "../api";
 
 export const Form = ({ isAddingArticle, setIsAddingArticle }) => {
-  // We need state for Form data, which should live in the Form Component itself, not in a parent component
+  // We need state for Form data, which should live in the Form Component itself, not in a parent component.
   // Form data is handled by the form component's state!
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -10,11 +10,13 @@ export const Form = ({ isAddingArticle, setIsAddingArticle }) => {
   const [email, setEmail] = useState("");
   const [tags, setTags] = useState("");
 
-  const handleSubmit = async (e) => {
-    // disable default behavior (default: send it to the server and reload the page)
-    e.preventDefault();
+  // Controlled Inputs, we control what happens when a user types in an input field
 
-    // we will need to send data in a fetch that is not a get, but a post request, do not need a specific endpoint
+  const handleSubmit = async (e) => {
+    window.location.reload(false); // automatically refresh
+    // 1. disable default behavior (default: send it to the server and reload the page)
+    e.preventDefault();
+    // 2. we will need to send data in a fetch that is not a get, but a post request, do not need a specific endpoint
     try {
       const response = await fetch(`${apiURL}/wiki/`, {
         method: "POST",
@@ -33,7 +35,7 @@ export const Form = ({ isAddingArticle, setIsAddingArticle }) => {
     } catch (err) {
       console.log("An error has occurred!", err);
     }
-    // // clear out the form for next time
+    // // 3.  clear out the form for next time
     setTitle("");
     setContent("");
     setName("");
@@ -43,8 +45,8 @@ export const Form = ({ isAddingArticle, setIsAddingArticle }) => {
 
   return (
     <>
-      <h1>WikiVerse</h1>
-      <h3>Add a Page</h3>
+      <h1>Wikiverse</h1>
+      <h2>Add a Page</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -81,7 +83,6 @@ export const Form = ({ isAddingArticle, setIsAddingArticle }) => {
         <button onClick={() => setIsAddingArticle(false)}>
           Back to Wikilist
         </button>
-        <button>DELETE</button>
       </form>
     </>
   );

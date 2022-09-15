@@ -7,14 +7,17 @@ import { Form } from "./Form";
 import apiURL from "../api";
 
 export const App = () => {
-  const [pages, setPages] = useState([]);
-  const [singlePage, setSinglePage] = useState(null); // set the article data on a new piece of state
-  const [isAddingArticle, setIsAddingArticle] = useState(false);
+  // set a new piece of state
+  const [pages, setPages] = useState([]); //
+  const [singlePage, setSinglePage] = useState(null); // for the SinglePage Component
+  const [isAddingArticle, setIsAddingArticle] = useState(false); // for the Form Component
 
+  // use useEffect to prevent an infinite loop, use a dependency array [] for the second argument
   useEffect(() => {
     fetchPages();
   }, []);
 
+  // fetch GET request
   async function fetchPages() {
     try {
       const response = await fetch(`${apiURL}/wiki/`);
@@ -38,6 +41,7 @@ export const App = () => {
   }
 
   return (
+    // Conditional rendering, use ternary operator, curly braces {} around it
     <>
       <main>
         {singlePage ? (
@@ -51,7 +55,7 @@ export const App = () => {
           </div>
         ) : (
           <div>
-            <h1>WikiVerse</h1>
+            <h1>Wikiverse</h1>
             <h2>An interesting 📚</h2>
             <PagesList pages={pages} handleClick={fetchArticleData} />
             <button onClick={() => setIsAddingArticle(true)}>
